@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>カート詳細</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{common/header :: header}"></header>
+	
+	<div class="cart-title">
+		<h1>カート詳細画面</h1> 
+	</div>
+	
+	<div class="cart-main">
+		<div class="cart-main-left">
+		<div th:each="item : ${cart}" class="cart-item">
+			<img th:src="@{/images/{file}(file=${item.product.imgPath})}" class="cart-img">
+			
+			<div class="cart-container">
+				<p>商品名:<span th:text="${item.product.productName}"></span></p>
+				
+				<form th:action="@{/cart/update}" method="post">
+				    <input type="hidden" name="productId" th:value="${item.product.productId}">
+		
+				    数量：<br>
+				    <input type="number"
+				           name="quantity"
+				           th:value="${item.quantity}"
+				           min="1"
+				           onchange="this.form.submit()">
+				</form>
+				
+				<form th:action="@{/cart/delete}" method="post">
+				    <input type="hidden" name="productId" th:value="${item.product.productId}">
+				    <button type="submit" class="cart-delete-btn">削除</button>
+				</form>
+				
+				<p>価格:<span th:text="${item.product.price}"></span></p>
+				<p>消費税込み価格:<span th:text="${item.product.taxPrice}"></span></p>
+			</div>	
+			</div>	
+		</div>
+	
+		<div class="cart-info-total">
+			
+			<p>個数：<span th:text="${count}"></span></p>
+			<p>金額：<span th:text="${totalExTax}"></span></p>
+			<p>消費税込み金額：<span th:text="${totalInTax}"></span></p>
+				
+			<a th:href="@{/purchase}" class="purchase-btn">レジに進む</a>
+		
+		</div>
+	</div>
+
+	<footer th:replace="~{common/footer :: footer}"></footer>
+</body>
+</html>

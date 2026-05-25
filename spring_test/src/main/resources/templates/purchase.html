@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>購入詳細</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{common/header :: header}"></header>
+	
+	<div class="purchase-title">
+		<h1>購入詳細画面</h1> 
+	</div>
+
+	<div class="purchase-form">
+		<form th:action="@{/purchase}" method="post" th:object="${purchaseForm}">
+			
+			<p class="purchase">＜受け取り場所＞</p>
+			
+					<label class="purchase-select">
+						<input type="radio" name="addressIndex" value="1">
+						
+						<div class="purchase-address">
+							名前：
+							<span th:text="${user.userName}"></span><br><br>
+							
+							住所<br>
+							<input type="text" name="address1" placeholder="住所"><br>
+							
+							アパート名等<br>
+							<input type="text" name="building1" placeholder="アパート名等">
+						</div>
+					</label>
+				
+				
+					<br>
+					
+				
+					<label class="purchase-select">
+						<input type="radio" name="addressIndex" value="2">
+						
+						<div class="purchase-address">
+							名前：
+							<span th:text="${user.userName}"></span><br><br>
+					
+							住所<br>
+							<input type="text" name="address2" placeholder="住所"><br>
+							
+							アパート名等<br>
+							<input type="text" name="building2" placeholder="アパート名等">
+						</div>
+					</label>
+				
+				
+				<br>
+				
+			<p class="purchase">＜お支払情報＞</p>
+						
+					<label class="purchase-select">
+						<input type="radio" name="pay" value="1">
+						
+						<div class="purchase-card">		
+							<input type="text" th:field="*{cardNumber1}" placeholder="カード番号"><br>
+							<p th:if="${#fields.hasErrors('cardNumber1')}" th:errors="*{cardNumber1}"></p>
+							
+							<input type="text" name="expiry1" placeholder="有効期限 MM/YY">
+						</div>
+					</label>
+			
+			
+					<br>
+					
+			
+					<label class="purchase-select">
+						<input type="radio" name="pay" value="2">
+						
+						<div class="purchase-card">
+							<input type="text" th:field="*{cardNumber2}" placeholder="カード番号"><br>
+							<p th:if="${#fields.hasErrors('cardNumber2')}" th:errors="*{cardNumber2}"></p>
+							
+							<input type="text" name="expiry2" placeholder="有効期限 MM/YY">
+						</div>
+					</label>
+			
+				
+			<div class="purchase-btn-area">
+				<button type="submit" class="purchase-submit-btn">確認</button>
+			</div>
+				
+		</form>
+	</div>
+	
+	<footer th:replace="~{common/footer :: footer}"></footer>
+</body>
+</html>

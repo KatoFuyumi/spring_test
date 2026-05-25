@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>新規登録</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{common/header :: header}"></header>
+	
+	<div class="register-title">
+		<h1>ユーザー新規登録画面</h1>
+	</div>
+	
+	<div class="register-form">
+		<form method="post" th:action="@{/register}" th:object="${registerForm}">
+			<p>ユーザー名</p>
+			<input type="text" th:field="*{userName}">
+			<p th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></p>
+						
+			<p>メールアドレス</p>
+			<input type="text" th:field="*{email}">
+			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+			
+			<p>パスワード</p>
+			<input type="password" th:field="*{passwords}">
+			<p th:if="${#fields.hasErrors('passwords')}" th:errors="*{passwords}"></p>
+			
+			<p>パスワード(確認用)</p>
+			<input type="password" th:field="*{confirmPassword}">
+			<p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+			
+			<p th:if="${#fields.hasGlobalErrors()}"
+						       th:each="err : ${#fields.globalErrors()}"
+						       th:text="${err}"></p>
+			
+			<div class="register-btn-area">				   
+				<input type="submit" class="register-submit-btn" value="登録">
+				
+				<a th:href="@{/login}" class="back-btn">戻る</a>
+			</div>
+		</form>
+	
+	</div>
+		
+	<footer th:replace="~{common/footer :: footer}"></footer>
+</body>
+</html>

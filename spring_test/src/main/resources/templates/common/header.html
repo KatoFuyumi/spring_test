@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+	<header id="header" th:fragment="header">
+	        <p><a th:href="@{/}">Cytech EC.</a></p>
+
+	        <form th:action="@{/product/search}" method="get">
+	            <input type="text" name="keyword" placeholder="商品名">
+				
+				<select name="category">
+					<option value="">カテゴリ</option>
+					<option th:each="category : ${categories ?: {}}"
+							th:value="${category.categoryId}"
+							th:text="${category.categoryName}">
+					</option>
+				</select>
+				
+	            <button type="submit" class="submit-btn">検索</button>
+				
+	        </form>
+			
+			<div th:if="${session.user != null}" class="user-area">
+				
+				<a href="#" class="mypage-btn">マイページ</a>
+				
+				<div class="user-info">
+					<p>ユーザー名：<span th:text="${session.user.userName}"></span></p>
+				
+					<form th:action="@{/logout}" method="post">
+					    <button type="submit" class="logout-btn">ログアウト</button>
+					</form>
+				</div>
+			</div>
+	    </header>
+</body>
+</html>

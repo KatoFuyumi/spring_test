@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>口コミ投稿</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{common/header :: header}"></header>
+	
+	<div class="review-title">
+		<h1>口コミ投稿画面</h1>
+	</div>
+
+	<div class="review-form">
+		<form method="post" th:action="@{/product/review}" enctype="multipart/form-data" th:object="${reviewForm}">
+			
+			<input type="hidden" th:field="*{productId}">
+			
+			ユーザー名（任意）<input type="text" th:field="*{name}" placeholder="ユーザー名" />
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+			
+			<div class="rating-area">
+				<label>評価</label>
+				<select th:field="*{rating}">
+				    <option value="1">1</option>
+				    <option value="2">2</option>
+				    <option value="3">3</option>
+				    <option value="4">4</option>
+				    <option value="5">5</option>
+				</select>
+			</div>
+			
+			<p th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></p>
+			
+			メールアドレス<br>
+			<input type="email" th:field="*{email}" placeholder="メールアドレス" />
+			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+			
+			コメント<br>
+			<textarea th:field="*{comment}"></textarea>
+			<p th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></p>
+			
+			
+			<input type="file" name="file" />
+			
+			<div class="review-btn-area">
+				<button class="review-submit-btn">投稿</button>
+			</div>
+		</form>
+	</div>
+	
+	<footer th:replace="~{common/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+<meta charset="UTF-8">
+<title>ログイン</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{common/header :: header}"></header>
+	
+	<div class="login-title">
+		<h1>ログイン画面</h1>
+	</div>
+	
+	<div class="login-form">
+		<form method="post" th:action="@{/login}" th:object="${loginForm}">
+			<p>メールアドレス</p>
+			<input type="text" th:field="*{email}">
+			<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+			
+			<p>パスワード</p>
+			<input type="password" th:field="*{passwords}">
+			<p  th:if="${#fields.hasErrors('passwords')}" th:errors="*{passwords}"></p>
+			
+			<p th:if="${#fields.hasGlobalErrors()}"
+			       th:each="err : ${#fields.globalErrors()}"
+			       th:text="${err}"></p>
+				   
+			<div class="login-btn-area">
+				<input type="submit" class="login-submit-btn" value="Login">
+				
+				<a th:href="@{/register}" class="register-btn">新規登録</a>
+			</div>
+		</form>
+		
+	</div>
+	
+	<footer th:replace="~{common/footer :: footer}"></footer>
+</body>
+</html>
