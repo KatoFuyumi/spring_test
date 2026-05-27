@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +29,9 @@ import jp.co.sss.spring_test.repository.SalesItemRepository;
 
 @Controller
 public class indexController {
+	
+	@Value("${upload.path}")
+    private String uploadPath;
 	
 	@Autowired
 	SalesItemRepository salesItemRepository;
@@ -78,7 +82,11 @@ public class indexController {
 	@RequestMapping(path = "/product/detail/{id}", method = RequestMethod.GET)
 	public String productDetail(@PathVariable Integer id, Model model) {
 		
-		Product product = productRepository.findById(id).get();
+		Product product = productRepository.findById(id).orElse(null);
+		
+		if (product == null) {
+		    return "redirect:/";
+		}
 		
 		model.addAttribute("product", product);
 		
@@ -138,10 +146,6 @@ public class indexController {
 		    String fileName =
 		        System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
-		    // 保存先
-		    String uploadPath =
-		        "C:/workspace/spring_test/src/main/resources/static/images/";
-
 		    // フォルダなかったら作る
 		    File uploadDir = new File(uploadPath);
 
@@ -149,7 +153,7 @@ public class indexController {
 		        uploadDir.mkdirs();
 		    }
 
-		    File dest = new File(uploadPath + fileName);
+		    File dest = new File(uploadPath, fileName);
 		    file.transferTo(dest);
 		    review.setReviewImgPath(fileName);
 

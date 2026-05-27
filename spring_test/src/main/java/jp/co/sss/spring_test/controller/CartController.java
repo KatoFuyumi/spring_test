@@ -54,9 +54,20 @@ public class CartController {
         }
 
         // 商品取得
-        Product product = productRepository.findById(productId).get();
+        Product product = productRepository.findById(productId).orElse(null);
+
+        if (product == null) {
+            return "redirect:/";
+        }
         
-        //在庫確認
+        if (product.getStock() <= 0) {
+            return "redirect:/";
+        }
+
+        if (quantity == null || quantity <= 0) {
+            return "redirect:/";
+        }
+
         if (quantity > product.getStock()) {
 
             redirectAttributes.addFlashAttribute(
@@ -187,7 +198,11 @@ public class CartController {
 	@RequestMapping(path = "/purchase/direct", method = RequestMethod.POST)
 	public String directPurchase(Integer productId, HttpSession session) {
 		
-	    Product product = productRepository.findById(productId).get();
+	    Product product = productRepository.findById(productId).orElse(null);
+	    
+	    if (product == null) {
+	        return "redirect:/";
+	    }
 
 	    List<CartItem> cart = new ArrayList<>();
 
